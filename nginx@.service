@@ -1,0 +1,19 @@
+[Unit]
+Description=nginx
+
+[Service]
+EnvironmentFile=/etc/environment
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStartPre=/usr/bin/docker pull robszumski.com:5000/nginx
+ExecStart=/usr/bin/docker run \
+  --rm \
+  --name %n \
+  -p 80:80 \
+  -e HOST_IP=${COREOS_PUBLIC_IPV4} \
+  robszumski.com:5000/nginx
+ExecStop=/usr/bin/docker kill %n
+
+[X-Fleet]
+X-Conflicts=nginx.service
