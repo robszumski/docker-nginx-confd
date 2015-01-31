@@ -10,7 +10,7 @@ ExecStartPre=/usr/bin/docker pull quay.io/robszumskiprivate/nginx
 ExecStart=/bin/sh -c "/usr/bin/docker run \
   --rm \
   --name %p%i \
-  -p 8080:80 \
+  -p 80:80 \
   -e HOST_IP=${COREOS_PUBLIC_IPV4} \
   quay.io/robszumskiprivate/nginx"
 ExecStop=/usr/bin/docker kill %p%i
