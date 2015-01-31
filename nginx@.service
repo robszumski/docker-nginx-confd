@@ -4,16 +4,16 @@ Description=nginx
 [Service]
 EnvironmentFile=/etc/environment
 TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill %n
-ExecStartPre=-/usr/bin/docker rm %n
+ExecStartPre=-/usr/bin/docker kill %p%i
+ExecStartPre=-/usr/bin/docker rm %p%i
 ExecStartPre=/usr/bin/docker pull quay.io/robszumskiprivate/nginx
 ExecStart=/bin/sh -c "/usr/bin/docker run \
   --rm \
-  --name %n \
+  --name %p%i \
   -p 8080:80 \
   -e HOST_IP=${COREOS_PUBLIC_IPV4} \
-  robszumski.com:5000/nginx"
-ExecStop=/usr/bin/docker kill %n
+  quay.io/robszumskiprivate/nginx"
+ExecStop=/usr/bin/docker kill %p%i
 
 [X-Fleet]
 X-Conflicts=nginx.service
